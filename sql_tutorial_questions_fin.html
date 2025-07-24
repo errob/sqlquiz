@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SQL Tutorial Questions</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .question { display: none; margin-bottom: 20px; }
+        .navigation { margin-bottom: 20px; }
+        #answers { display: none; margin-top: 20px; }
+        #answers table { border-collapse: collapse; width: 100%; }
+        #answers th, #answers td { border: 1px solid #000; padding: 8px; text-align: left; }
+        #toggleAnswers { display: none; margin-top: 10px; }
+        img { max-width: 100%; height: auto; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<h1>SQL Tutorial Questions</h1>
+<p>Practice using <a href="https://sqltutorial.org/playground/" target="_blank">SQL Tutorial Playground</a></p>
+
+<div id="question1" class="question" style="display: block;">
+    <h2>Question 1</h2>
+    <p>How to use AS in a SQL statement?</p>
+           <p>Write a statement using table <code>employees</code> with alias <code>emp</code>, show:</p>
+        <ul>
+            <li><code>first_name</code> → Given Name</li>
+            <li><code>last_name</code> → Surname</li>
+            <li><code>salary</code> → Cost</li>
+        </ul>	 <table border="1" style="border-collapse: collapse; width: 100%; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>Given Name</th>
+                    <th>Surname</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Alice</td><td>Johnson</td><td>7500</td></tr>
+                <tr><td>Bob</td><td>Smith</td><td>6800</td></tr>
+                <tr><td>Carol</td><td>Williams</td><td>2200</td></tr>
+            </tbody>
+        </table>
+</div>
+
+<div id="question2" class="question">
+    <h2>Question 2</h2>
+    <p>How to JOIN two tables together, what's important for it?</p>
+    <p>Write a statement to JOIN the tables <code>employees</code> and <code>departments.</code></p>
+</div>
+
+<div id="question3" class="question">
+    <h2>Question 3</h2>
+    <p>How to filter the results by a greater than function?</p>
+    <p>Write a statement to filter the table <code>employees</code> by salary greater than 5000</p>
+	 <table border="1" style="border-collapse: collapse; width: 100%; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>Given Name</th>
+                    <th>Surname</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Alice</td><td>Johnson</td><td>7500</td></tr>
+                <tr><td>Bob</td><td>Smith</td><td>6800</td></tr>
+            </tbody>
+        </table>
+</div>
+
+<div id="question4" class="question">
+    <h2>Question 4</h2>
+    <p>How to sort the result by a numeric value?</p>
+    <p>Modify your statement to filter by the salary. Lowest to highest</p>
+	 <table border="1" style="border-collapse: collapse; width: 100%; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>Given Name</th>
+                    <th>Surname</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+				<tr><td>Bob</td><td>Smith</td><td>6800</td></tr>
+                <tr><td>Alice</td><td>Johnson</td><td>7500</td></tr>
+            </tbody>
+        </table>
+</div>
+
+<div id="question5" class="question">
+    <h2>Question 5</h2>
+    <p>Combine all your previous tasks and create a view like the table below, use tables <code>employees, departments, jobs.</code></p>
+	        <table border="1" style="border-collapse: collapse; width: 100%; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>Given Name</th>
+                    <th>Surname</th>
+                    <th>Job Title</th>
+                    <th>Department</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Bob</td><td>Smith</td><td>Data Analyst</td><td>Data Science</td><td>6800</td></tr>
+				<tr><td>Alice</td><td>Johnson</td><td>Software Engineer</td><td>Engineering</td><td>7500</td></tr>
+            </tbody>
+        </table>
+</div>
+
+<div class="navigation">
+    <button onclick="prevQuestion()">Previous</button>
+    <button onclick="nextQuestion()">Next</button>
+</div>
+
+<div id="toggleAnswers">
+    <button onclick="toggleAnswers()">SHOW / HIDE Answers</button>
+</div>
+
+<div id="answers">
+    <h2>Answers</h2>
+    <ol>
+        <li><strong>Question 1:</strong><br>
+            SELECT emp.first_name AS "Given Name", emp.last_name AS "Surname", emp.salary AS "Cost" FROM employees emp;
+        </li>
+        <li><strong>Question 2:</strong><br>
+            SELECT * FROM employees emp JOIN departments dep ON emp.department_id = dep.department_id;
+        </li>
+        <li><strong>Question 3:</strong><br>
+            SELECT * FROM employees emp WHERE emp.salary > 5000;
+        </li>
+        <li><strong>Question 4:</strong><br>
+            SELECT * FROM employees emp WHERE emp.salary > 5000 ORDER BY emp.salary ASC;
+        </li>
+        <li><strong>Question 5:</strong><br>
+            SELECT emp.first_name AS "Given Name", emp.last_name AS "Surname", job.job_title AS "Job Title", dep.department_name AS "Department", emp.salary AS "Cost" FROM employees emp JOIN departments dep ON emp.department_id = dep.department_id JOIN jobs job ON emp.job_id = job.job_id WHERE emp.salary > 5000 ORDER BY emp.salary;
+            <br><br>
+            
+        </li>
+    </ol>
+</div>
+
+<script>
+    let currentQuestion = 1;
+    const totalQuestions = 5;
+
+    function showQuestion(num) {
+        for (let i = 1; i <= totalQuestions; i++) {
+            document.getElementById("question" + i).style.display = "none";
+        }
+        document.getElementById("question" + num).style.display = "block";
+       // document.getElementById("toggleAnswers").style.display = (num === totalQuestions) ? "block" : "none";
+    }
+
+    function nextQuestion() {
+        if (currentQuestion < totalQuestions) {
+            currentQuestion++;
+            showQuestion(currentQuestion);
+        }
+    }
+
+    function prevQuestion() {
+        if (currentQuestion > 1) {
+            currentQuestion--;
+            showQuestion(currentQuestion);
+        }
+    }
+
+    function toggleAnswers() {
+        const answers = document.getElementById("answers");
+        answers.style.display = (answers.style.display === "none") ? "block" : "none";
+    }
+</script>
+
+</body>
+</html>
